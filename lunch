@@ -1,0 +1,17 @@
+#!/bin/bash
+# picks a random line out of supplied text file
+
+rm *~
+files=$(ls list*)
+
+echo
+echo
+results=
+for file in ${files[*]} ; do
+    numlines=`wc -l $file | cut -f1 -d' '`
+    printline=$((RANDOM%numlines + 1))
+    tmp=`awk -v line=$printline '{ if (NR == line) { printf "%s", $0 } }' $file`
+    results="$results${file##list-} - $tmp\n"
+done
+echo -e "$results"
+echo
